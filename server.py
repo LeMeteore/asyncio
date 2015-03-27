@@ -16,7 +16,21 @@ def hello(ws, uri):
     yield from ws.send(greeting)
     print("> {}".format(greeting))
 
-start_server = websockets.serve(hello,
+
+@aio.coroutine
+def handler(ws, uri):
+    # best way to handle connections
+    while True:
+        n = yield from ws.recv()
+        if n is None:
+            break
+        print("< {}".format(n))
+        greeting = "hello {}".format(n)
+        yield from ws.send(greeting)
+        print("> {}".format(greeting))
+
+
+start_server = websockets.serve(handler,
                                 'localhost',
                                 8765)
 aio.get_event_loop().run_until_complete(start_server)

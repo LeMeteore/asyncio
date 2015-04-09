@@ -18,9 +18,13 @@ tasks = [
     asyncio.Task(my_coroutine('task3', 2))
 ]
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(
-    # wait: return a future aggregating results from given coroutines/futures
-    asyncio.wait(tasks)
-)
-loop.close()
+def run():
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(
+        # wait: return a future aggregating results from given coroutines/futures
+        asyncio.wait(tasks)
+        )
+    loop.close()
+
+if __name__ == '__main__':
+    run()

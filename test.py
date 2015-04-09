@@ -35,5 +35,7 @@ def print_magnet(query):
 if __name__ == '__main__':
     distros = ['archlinux', 'ubuntu', 'debian']
     loop = asyncio.get_event_loop()
+    # wait for Futures & coroutines to complete, returns Futures, done or pending
     f = asyncio.wait([print_magnet(d) for d in distros])
+    # run until future f is done, return the future result
     loop.run_until_complete(f)

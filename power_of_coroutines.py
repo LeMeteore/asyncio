@@ -5,6 +5,7 @@ def menu():
     yield "spam"
     yield "eggs"
     yield "bacon"
+    yield "\n"
 
 # a simple generator
 gen = menu()
@@ -30,7 +31,7 @@ gen = count()
 # because of the while loop, let's break after 20 iterations
 for elt in gen:
     if elt == 20:
-        print("done")
+        print("done\n")
         break
 else:
     print(elt)
@@ -52,7 +53,7 @@ a = 20
 for elt in gen:
     a -= 1
     if a == 0:
-        print("done")
+        print("done\n")
         break
 else:
     print(elt)
@@ -91,5 +92,21 @@ def printer(prefix=''):
 gen = printer()
 
 # sending some letters to our generator
-for i in "coroutines are awesome and powerful":
+for i in "coroutines are awesome and powerful\n":
     gen.send(i)
+
+
+# let's create a grepper, who filter data the send it to a target
+@coroutine
+def grepper(pattern, target):
+    while True:
+        data = yield
+        if pattern in data:
+            target.send(data)
+
+
+ptr = printer()
+grep = grepper('python', ptr)
+
+for i in ["python is nice", "bash is nice too", "same thing for rust", "but let's keep with python"]:
+    grep.send(i)

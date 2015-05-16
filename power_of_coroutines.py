@@ -110,3 +110,21 @@ grep = grepper('python', ptr)
 
 for i in ["python is nice", "bash is nice too", "same thing for rust", "but let's keep with python"]:
     grep.send(i)
+
+
+# another use case
+
+@coroutine
+def multiplexer(*targets):
+    while True:
+        data = yield
+        for t in targets:
+            t.send(data)
+
+ptr = printer()
+grep_python = grepper('python', ptr)
+grep_rust = grepper('rust', ptr)
+mpxr = multiplexer(grep_python, grep_rust)
+
+for i in ["python is cool", "rust is also cool", "java is less cool", "python & rust are cool"]:
+    mpxr.send(i)

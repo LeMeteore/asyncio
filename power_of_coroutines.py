@@ -27,10 +27,40 @@ def count():
 
 gen = count()
 
-# because of the while, let's break after 20 iterations
+# because of the while loop, let's break after 20 iterations
 for elt in gen:
     if elt == 20:
         print("done")
         break
 else:
     print(elt)
+
+
+# we can "send" the data to be yielded
+
+def receiver():
+    print("ready")
+    while True:
+        data = yield
+        print("received {!r}".format(data))
+
+gen = receiver()
+print(type(gen))
+
+# because of the while loop, let's break after 20 iterations
+a = 20
+for elt in gen:
+    a -= 1
+    if a == 0:
+        print("done")
+        break
+else:
+    print(elt)
+
+
+# how to send data to the generator
+
+gen = receiver()
+next(gen)
+gen.send("hello world")
+gen.send("hello world again")

@@ -64,3 +64,32 @@ gen = receiver()
 next(gen)
 gen.send("hello world")
 gen.send("hello world again")
+
+# yield est bel et bien un mécanisme de coroutines,
+# c'est-à-dire un point de suspension dans l'exécution d'une fonction,
+# que l'on peut utiliser pour échanger des données avec elle.
+
+
+# let's create a decorator that will 'start' the generator for us
+# you should always call next one time before being able to use
+# your newly created generator
+
+def coroutine(func):
+    def starter(*args, **kwargs):
+        gen = func(*args, **kwargs)
+        next(gen)
+        return gen
+    return starter
+
+# let's create a printer who print whatever sent to him
+@coroutine
+def printer(prefix=''):
+    while True:
+        data = yield
+        print("{}{}".format(prefix, data))
+
+gen = printer()
+
+# sending some letters to our generator
+for i in "coroutines are awesome and powerful":
+    gen.send(i)

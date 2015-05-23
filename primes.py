@@ -60,10 +60,39 @@ def primes_factors(n=100):
         d+=1
     return f
 
+def primes_factors_generator(n=100):
+    f = list()
+    d = 2;
+    if is_prime(n): return [1, n]
+    while (n>1):
+        while n%d==0:
+            yield d
+            n/=d
+        d+=1
+
 
 """a divise b si b = k.a avec k appartenant a Z """
 
+def divisors(n=100):
+    d = list()
+    for i in range(2, int(n/2+1)):
+        if n%i == 0: d.append(i)
+    return d
+
+def divisors_generator(n=100):
+    for i in range(2, int(n/2+1)):
+        if n%i == 0: yield i
+
+def divisors_generator1(n=100):
+    for d in iter(divisors(n)): yield d
+
 def is_divisor(a, b):
+    divide = False
+    if a in divisors(b):
+        divide = True
+    return (divide, divisors(b))
+
+def is_prime_divisor(a, b):
     divide = False
     if a in primes_factors(b):
         divide = True

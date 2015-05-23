@@ -38,6 +38,9 @@ def primes_generator2():
     f = sieve()
     yield from f
 
+
+"""un nombre composé est le produit d'au moins 2 nombres premiers (qu'ils soient distincts ou identiques)."""
+
 # not prime? so it is a composite number
 def composites_generator(n=100):
     for i in range(2,n):
@@ -49,10 +52,18 @@ def composites_generator(n=100):
 def comp(n=100):
     f = list()
     d = 2;
-    if is_prime(n): return "n is prime"
+    if is_prime(n): return [1, n]
     while (n>1):
         while n%d==0:
             f.append(d)
             n/=d
         d+=1
     return f
+
+"""a divise b si b = k.a avec k appartenant a Z """
+
+def is_divisor(a, b):
+    divide = False
+    if a in comp(b):
+        divide = True
+    return (divide, comp(b))

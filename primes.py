@@ -45,11 +45,11 @@ def primes_generator2():
 def composites_generator(n=100):
     for i in range(2,n):
         if not is_prime(i):
-            yield (comp(i))
-            i += 1
+            yield (i, primes_factors(i))
 
-# returns a list of factors
-def comp(n=100):
+
+# returns a list of prime factors
+def primes_factors(n=100):
     f = list()
     d = 2;
     if is_prime(n): return [1, n]
@@ -60,10 +60,11 @@ def comp(n=100):
         d+=1
     return f
 
+
 """a divise b si b = k.a avec k appartenant a Z """
 
 def is_divisor(a, b):
     divide = False
-    if a in comp(b):
+    if a in primes_factors(b):
         divide = True
-    return (divide, comp(b))
+    return (divide, primes_factors(b))
